@@ -60,6 +60,8 @@ public class Game {
     }
 
     public static void main(String[] args) {
+
+        Start.enter();
         String[] campusLocations = {"Entrance", "Main Hall", "Library", "Classrooms", "Cafeteria", "Destination"};
 
         // Create campus with a destination at index 5 (Destination)
