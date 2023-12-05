@@ -61,29 +61,36 @@ public class Game {
 
     public static void main(String[] args) {
 
+        System.out.println("Welcome to IDK! What is Your Name? ");
+
+        // String[] campusLocations = {"Entrance", "Main Hall", "Library", "Classrooms", "Cafeteria", "Destination"};
+
+        // // Create campus with a destination at index 5 (Destination)
+        // Campus campus = new Campus(campusLocations, 5);
+
+        // // Game loop
+        // Scanner scanner = new Scanner(System.in);
+        Start.setName();
+        System.out.println( "Do You Want to Play?");
+        System.out.println("\n Please Type: \n [Yes] or [No]");
         Start.enter();
-        String[] campusLocations = {"Entrance", "Main Hall", "Library", "Classrooms", "Cafeteria", "Destination"};
+        
+        
 
-        // Create campus with a destination at index 5 (Destination)
-        Campus campus = new Campus(campusLocations, 5);
+        // System.out.println("Welcome to the Campus Adventure Game!");
+        // System.out.println("You are currently at: " + campus.getCurrentLocation());
 
-        // Game loop
-        Scanner scanner = new Scanner(System.in);
+        // while (true) {
+        //     System.out.print("Options: [1] Move forward\nYour choice: ");
+        //     int choice = scanner.nextInt();
 
-        System.out.println("Welcome to the Campus Adventure Game!");
-        System.out.println("You are currently at: " + campus.getCurrentLocation());
-
-        while (true) {
-            System.out.print("Options: [1] Move forward\nYour choice: ");
-            int choice = scanner.nextInt();
-
-            if (choice == 1) {
-                campus.movePlayer();
-                System.out.println("You are now at: " + campus.getCurrentLocation());
-            } else {
-                System.out.println("Invalid choice. Try again.");
-            }
+        //     if (choice == 1) {
+        //         campus.movePlayer();
+        //         System.out.println("You are now at: " + campus.getCurrentLocation());
+        //     } else {
+        //         System.out.println("Invalid choice. Try again.");
+        //     }
         }
     }
-}
+//}
     
