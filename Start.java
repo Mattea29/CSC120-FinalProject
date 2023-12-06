@@ -11,6 +11,7 @@ public class Start {
     public String name; 
     private static Map<String, String> powerUpDescriptions = new HashMap<>();
 
+
     static {
         powerUpDescriptions.put("Water Bottle", "A refreshing bottle of several days old water. Drink up!");
         powerUpDescriptions.put("Protein Bar", "A delicious protein bar that you found smushed at the bottom of your bag. Yum!");
