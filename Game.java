@@ -143,8 +143,10 @@ public class Game {
         enter();
         selectPowerUps();
         int pathChoice = selectPath(scanner);
+        Map map = new Map(pathChoice - 1, 5);
+        map.move();
         
-
+ 
         
         
 
