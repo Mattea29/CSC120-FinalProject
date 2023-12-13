@@ -10,6 +10,9 @@ public class Player {
     private int energyPoints;
     private Map<String, Integer> powerUpEnergyPoints;
     private List<String> powerUps;
+    public static final int MAX_INVENTORY_SIZE = 8;
+    private List<String> inventory;
+    private Map<String, PowerUps> powerUpsInventory = new HashMap<>();
 
 
 
@@ -19,6 +22,7 @@ public class Player {
         this.energyPoints = 0;
         this.powerUpEnergyPoints = new HashMap<>();
         this.powerUps = new ArrayList<>();
+        this.inventory = new ArrayList<>();
         initializePowerUps();
         System.out.println("\nYour name is: " + playerName + ". Your HP is at " + initialHp);
     }
@@ -27,6 +31,17 @@ public class Player {
         return powerUps;
     }
 
+    public void addToInventory(String item) {
+        inventory.add(item);
+    }
+
+    public int getInventorySize() {
+        return inventory.size();
+    }
+
+    public List<String> getInventory() {
+        return new ArrayList<>(inventory);
+    }
 
     public void receiveAttack(int damage) {
         // Ensure that the player's health points don't go below zero
@@ -78,4 +93,25 @@ public class Player {
     public int getEnergyPoints() {
         return energyPoints;
     }
+
+
+    public void addPowerUps(PowerUps powerUp) {
+        powerUpsInventory.put(powerUp.getName(), powerUp);
+        System.out.println("You picked up " + powerUp.getName() + ". Added to your inventory.");
+    }
+
+    public void usePowerUps(String powerUpName) {
+        if (powerUpsInventory.containsKey(powerUpName)) {
+            PowerUps powerUp = powerUpsInventory.get(powerUpName);
+            hp += powerUp.getHpEffect();
+            energyPoints += powerUp.getEnergyEffect();
+            System.out.println("Used " + powerUpName + ". HP restoryed by " + powerUp.getHpEffect() + " points. Energy points increased by " + powerUp.getEnergyEffect() + ".");
+        } else {
+            System.out.println("Invalid power-up selected");
+        }
+    }
 }
+
+// still need to implement logic for determining type of attack based on energy points 
+// need to implement logic for revival/healing 
+// need to implement inventory LOL

@@ -1,17 +1,10 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Inventory {
-    ArrayList<Inventory> arr = new ArrayList<Inventory>(10);
-
-    public void addToInventory() {
-
+    private List<PowerUps> powerUps;
+    public Inventory() {
+        this.powerUps = new ArrayList<>();
     }
-
-    public void removeFromInventory(){
-
-    }
-
-    public void checkInventory() {
-        
-    }
+    
 }

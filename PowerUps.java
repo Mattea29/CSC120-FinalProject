@@ -1,4 +1,25 @@
 public class PowerUps {
 
-    // method wich will allow the user to intract with powerups throughout the game and use for revival if necessary 
+    private String name;
+    private int hpEffect;
+    private int energyEffect;
+
+
+    public PowerUps(String name, int hpEffect, int energyEffect) {
+        this.name = name;
+        this.hpEffect = hpEffect;
+        this.energyEffect = energyEffect;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getHpEffect() {
+        return hpEffect;
+    }
+
+    public int getEnergyEffect() {
+        return energyEffect;
+    }
 }

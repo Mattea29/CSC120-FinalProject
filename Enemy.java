@@ -24,4 +24,9 @@ public class Enemy {
     public int getHp() {
         return hp;
     }
+
+    @Override
+    public String toString() {
+        return name; 
+    }
 }
