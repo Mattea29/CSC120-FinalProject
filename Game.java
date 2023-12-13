@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.Scanner;
+import java.util.List;
+import java.util.Arrays;
 
 public class Game {
 
@@ -43,32 +44,35 @@ public class Game {
     }
 
     public static void selectPowerUps() {
+        List<String> availablePowerUps = new ArrayList<>(Arrays.asList(powerUps));
         int itemsToSelect = 3;
     
         boolean readyToGo = false;
-    
+        System.out.println("You have a long journey ahead. On your bed are 5 items. Choose wisely.");
         while (!readyToGo) {
             for (int i = 0; i < itemsToSelect; i++) {
-                System.out.println("Laying before you on your bed are 5 items. You have a long day ahead of you. Choose " + (itemsToSelect - i) + " more item(s).");
+                System.out.println("Choose " + (itemsToSelect - i) + " more item(s).");
+
+                
     
                 // Display the available power-ups
-                for (int j = 0; j < powerUps.length; j++) {
-                    System.out.println((j + 1) + ". " + powerUps[j]);
+                for (int j = 0; j < availablePowerUps.size(); j++) {
+                    System.out.println((j + 1) + ". " + availablePowerUps.get(j));
                 }
     
                 // Ask the user to select an item
-                System.out.println("Enter the number of the item you want to select (1-" + powerUps.length + "): ");
+                System.out.println("Enter the number of the item you want to select (1-" + availablePowerUps.size() + "): ");
                 int selectedItemIndex = scanner.nextInt();
                 scanner.nextLine();  // Consume the newline character
     
                 // Validate the input
-                if (selectedItemIndex < 1 || selectedItemIndex > powerUps.length) {
-                    System.out.println("Invalid selection. Please choose a number between 1 and " + powerUps.length + ".");
+                if (selectedItemIndex < 1 || selectedItemIndex > availablePowerUps.size()) {
+                    System.out.println("Invalid selection. Please choose a number between 1 and " + availablePowerUps.size() + ".");
                     i--;  // Decrement the loop counter to allow the user to reselect
                     continue;
                 }
     
-                String selectedPowerUp = powerUps[selectedItemIndex - 1];
+                String selectedPowerUp = availablePowerUps.get(selectedItemIndex - 1);
                 String description = powerUpDescriptions.get(selectedPowerUp);
     
                 // Display the description
@@ -82,6 +86,7 @@ public class Game {
                 if (response == 1) {
                     selectedPowerUps.add(selectedPowerUp);
                     System.out.println(selectedPowerUp + " added to your inventory.");
+                    availablePowerUps.remove(selectedPowerUp);
                 } else {
                     System.out.println(selectedPowerUp + " not added to your inventory.");
                     i--;  // Decrement the loop counter to allow the user to reselect
