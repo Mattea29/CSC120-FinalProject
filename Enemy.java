@@ -1,9 +1,27 @@
-public class Enemy extends Person {
-    //idk
 
-    public void getWeapon() {
-        // method which allows us to get the weapon type of an enemy, which will be useful for attack info and tracking health of player
+public class Enemy {
+    
+    private String name;
+    private int hp;
+
+    public Enemy(String name, int initialHp) {
+        this.name = name;
+        this.hp = initialHp;
     }
 
+    public void receiveAttack(int damage) {
+        hp -= damage;
+        System.out.println(name + "received " + damage + " damage. " + name + " HP is now: " + hp);
+        if (hp <= 0) {
+            System.out.println(name + " defeated!");
+        }
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getHp() {
+        return hp;
+    }
 }

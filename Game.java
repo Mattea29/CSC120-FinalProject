@@ -38,10 +38,8 @@ public class Game {
         };
     }
 
-    public static void setName() {
-        System.out.println("What is your name? ");
-        String player = scanner.nextLine();
-        System.out.printf("Good morning, " + player + "!");
+    public static void setName(String playerName) {
+        System.out.printf("Good morning, " + playerName + "! ");
     }
 
     public static void selectPowerUps() {
@@ -135,34 +133,17 @@ public class Game {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to IDK! What is Your Name? ");
-        setName();
+        System.out.println("Welcome to IDK!");
+        System.out.println("What is your name?");
+        String playerName = scanner.nextLine();
+        //setName(playerName);
+        Player player = new Player(playerName, 100);
         System.out.println( "Do You Want to Play?");
         System.out.println("\n Please Type: \n [Yes] or [No]");
         enter();
         selectPowerUps();
         int pathChoice = selectPath(scanner);
-        Map map = new Map(pathChoice - 1, 5);
+        Map map = new Map(pathChoice - 1, 5, player);
         map.move(pathChoice);
-        
- 
-        
-        
-
-        // System.out.println("Welcome to the Campus Adventure Game!");
-        // System.out.println("You are currently at: " + campus.getCurrentLocation());
-
-        // while (true) {
-        //     System.out.print("Options: [1] Move forward\nYour choice: ");
-        //     int choice = scanner.nextInt();
-
-        //     if (choice == 1) {
-        //         campus.movePlayer();
-        //         System.out.println("You are now at: " + campus.getCurrentLocation());
-        //     } else {
-        //         System.out.println("Invalid choice. Try again.");
-        //     }
         }
     }
-//}
-    
