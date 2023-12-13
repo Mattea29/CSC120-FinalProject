@@ -1,5 +1,6 @@
 
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class Map {
    
@@ -10,6 +11,8 @@ public class Map {
     private int stepsTaken;
     private String[] enemies;
     private String[] powerUps;
+    private boolean enemiesEncountered;
+    private HashMap<String, String> locationEnemyMapping = new HashMap<>();
 
     private String[][] paths = {
         {"Comstock", "President's House", "Botanical Garden", "Paradise Pond", "Sage Music Hall", "Ford Hall"},
@@ -23,19 +26,27 @@ public class Map {
         this.playerIndex = 0;
         this.destinationIndex = destinationIndex;
         this.stepsTaken = 0;
-        initializeEnemies();
+        initializeEnemies(pathChoice);
         initializePowerUps();
     }
 
-   private void initializeEnemies() {
-    int numEnemies = 2;
-    int distanceBetweenEnemies = paths[currentPathIndex].length / (numEnemies + 1);
-    enemies = new String[numEnemies];
+   private void initializeEnemies(int pathChoice) {
+    locationEnemyMapping.put("Botanical Garden", "Ghost of Sylvia Plath");
+    locationEnemyMapping.put("Sage Music Hall", "Music Teacher");
+    locationEnemyMapping.put("Campus Center", "Person Who Just Ordered the Last Yerba Mate");
+    locationEnemyMapping.put("Library", "Your Ex Who Works in the Cafe");
+    locationEnemyMapping.put("Seelye Hall", "Professor for a Class You Haven't Gone to in Two Weeks");
+    locationEnemyMapping.put("JMG", "Student Doing Chalk Art");
+    locationEnemyMapping.put("Campus Bookstore", "Entire Tour Group");
 
-    for (int i = 0; i < numEnemies; i ++) {
-        enemies[i] = "Enemy" + (i + 1);
+   }
+
+   private void printEnemies() {
+    System.out.println("Enemies on this path:");
+    for (String location : locationEnemyMapping.keySet()) {
+        System.out.println(location + ": " + locationEnemyMapping.get(location));
     }
-}
+   }
 
     private void initializePowerUps() {
         int numPowerUps = 3;
@@ -45,58 +56,109 @@ public class Map {
         }
    }
 
-   public void move() {
-    Scanner scanner = new Scanner(System.in);
+   public void move(int pathChoice) {
+     Scanner scanner = new Scanner(System.in);
 
-    System.out.println("Current Location: " + paths[currentPathIndex][playerIndex]);
-    System.out.println("Options: [1] Move forward, [2] Move backward");
+     switch (pathChoice) {
+            case 1:
+                currentPathIndex = 0;
+                break;
+            case 2:
+                currentPathIndex = 1;
+                break;
+            case 3:
+                currentPathIndex = 2;
+                break;
+            default:
+                System.out.println("Invalid path choice");
+                return;
+        }
 
-    int choice = scanner.nextInt();
+        printEnemies(); 
 
-    if (choice == 1) {
-        playerIndex = (playerIndex + 1) % paths[currentPathIndex].length;
-    } else if (choice == 2) {
-        playerIndex = (playerIndex - 1 + paths[currentPathIndex].length) % paths[currentPathIndex].length;
-    } else {
-        System.out.println("Invalid choice. Try again.");
-        return;
-    }
+        // if (!enemiesEncountered) {
+        //     initializeEnemies(pathChoice);
+        //     printEnemies();
+        //     enemiesEncountered = true;
+        // }
+        
+        // while (playerIndex < destinationIndex) {
+        //     System.out.println("Current Location: " + paths[currentPathIndex][playerIndex]);
+        //     System.out.println("Options: [1] Move forward, [2] Move backward");
 
-    stepsTaken++;
+       
+        //     int choice = scanner.nextInt();
 
-    encounterEnemy();
+        //     if (choice == 1) {
+        //         playerIndex = (playerIndex + 1) % paths[currentPathIndex].length;
+        //     } else if (choice == 2) {
+        //         playerIndex = (playerIndex - 1 + paths[currentPathIndex].length) % paths[currentPathIndex].length;
+        //     } else {
+        //         System.out.println("Invalid choice. Try again.");
+        //         return;
+        //     }
+  
 
-    if (playerIndex == destinationIndex) {
-        System.out.println("Congrats! You made it to the destination!");
-        System.exit(0);
-    } else {
-        checkPowerUp();
+        //     if (!enemiesEncountered) {
+        //         for (int i = 0; i < enemies.length; i++) {
+        //             if (enemies[i] != null && paths[currentPathIndex][playerIndex].equalsIgnoreCase(enemies[i])) {
+        //                 encounterEnemy();
+        //                 enemiesEncountered = true;
+        //                 break;
+        //             }
+        //         }
+        //     }
+        
+    //     if (playerIndex == destinationIndex) {
+    //     //encounter boss enemy 
+    //         System.out.println("Current Location: " + paths[currentPathIndex][playerIndex]);
+    //         encounterEnemy();
+    //         System.exit(0);
+    //     } else {
+    //         checkPowerUp();
+    //     }
+
+    //     }
+    
+   
+    // }
+    while (playerIndex < destinationIndex) {
+        System.out.println("Current Location: " + paths[currentPathIndex][playerIndex]);
+        System.out.println("Options: [1] Move forward, [2] Move backward");
+
+        int choice = scanner.nextInt();
+
+        if (choice == 1) {
+            playerIndex = (playerIndex + 1) % paths[currentPathIndex].length;
+        } else if (choice == 2) {
+            playerIndex = (playerIndex - 1 + paths[currentPathIndex].length) % paths[currentPathIndex].length;
+        } else {
+            System.out.println("Invalid choice. Try again.");
+            return;
+        }
+
+        // Check for enemy encounters in the current location
+        String currentLocation = paths[currentPathIndex][playerIndex];
+        if (locationEnemyMapping.containsKey(currentLocation)) {
+            String enemy = locationEnemyMapping.get(currentLocation);
+            encounterEnemy(enemy);
+            locationEnemyMapping.remove(currentLocation);  // Remove the encountered enemy from the map
+        }
+
+        if (playerIndex == destinationIndex) {
+            // Encounter boss enemy
+            System.out.println("Current Location: " + paths[currentPathIndex][playerIndex]);
+            encounterEnemy("Boss Enemy");
+            System.exit(0);
+        } else {
+            checkPowerUp();
+        }
     }
 }
 
 
- 
-
-private void encounterEnemy() {
-    for (String enemy : enemies) {
-        if (paths[currentPathIndex][playerIndex].equals(enemy)) {
-            System.out.println("Oh no! " + enemy + " appeared. You must decide what to do.");
-            System.out.print("Options: [1] Fight, [2] Run\nYour choice: ");
-
-            Scanner scanner = new Scanner(System.in);
-            int choice = scanner.nextInt();
-
-            if (choice == 1) {
-                System.out.println("You bravely fought " + enemy + " and continue your journey.");
-            } else if (choice == 2) {
-                System.out.println("You ran away from " + enemy + " and continue your journey.");
-            } else {
-                System.out.println("Invalid choice. " + enemy + " caught you!");
-                System.out.println("Game Over. Try again.");
-                System.exit(0);
-            }
-        }
-    }
+private void encounterEnemy(String enemy) {
+    System.out.println("An enemy has appeared!");
 }
 
 private void checkPowerUp() {

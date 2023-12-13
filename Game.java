@@ -119,7 +119,7 @@ public class Game {
                     System.out.println("You've selected the scenic route. This takes you along paradise pond!");
                     break;
                 case 2:
-                    System.out.println("You've selected the busy path. This takes you through the center of campus -- perfect for people watching!");
+                    System.out.println("You've selected the busy path. This takes you through the center of campus -- perfect for people watching! This path may be deceptively simple");
                     break;
                 case 3:
                     System.out.println("You've selected a very odd route. I'm not sure why you're going this way.");
@@ -132,7 +132,6 @@ public class Game {
     }
     
 
-
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -144,7 +143,7 @@ public class Game {
         selectPowerUps();
         int pathChoice = selectPath(scanner);
         Map map = new Map(pathChoice - 1, 5);
-        map.move();
+        map.move(pathChoice);
         
  
         
