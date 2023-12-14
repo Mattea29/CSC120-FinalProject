@@ -29,10 +29,6 @@ public class Game {
         return response == 1;
     }
 
-    public static void setName(String playerName) {
-        System.out.printf("\n Good morning, " + playerName + "! ");
-    }
-
     public static void selectPowerUps(Inventory inventory) {
         List<String> availablePowerUps = new ArrayList<>(Arrays.asList(powerUps));
         int itemsToSelect = 3;

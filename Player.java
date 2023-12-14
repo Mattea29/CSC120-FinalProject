@@ -51,9 +51,7 @@ public class Player {
         System.out.println(playerName + " received " + damage + " damage. Current HP: " + hp);
     }
 
-    // Add other methods as needed, such as getters and setters
-
-    // Example: Method to restore health points
+    
     public void restoreHp(int amount) {
         hp += amount;
         System.out.println(playerName + " restored " + amount + " HP. Current HP: " + hp);

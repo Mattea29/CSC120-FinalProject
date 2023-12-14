@@ -264,7 +264,7 @@ private int calculateEnemyDamage() {
         if (enemyInfo.getEnemyName().equals("Ford Hall Boss")) {
             return 10;
         } else {
-            return 8;
+            return 5;
         }
     }
     return 0;
