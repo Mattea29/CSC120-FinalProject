@@ -2,19 +2,25 @@
 public class Enemy {
     
     private String name;
-    private int hp;
+    private int maxHp;
+    private int damage;
 
-    public Enemy(String name, int initialHp) {
+    public Enemy(String name, int maxHp) {
         this.name = name;
-        this.hp = initialHp;
+        this.maxHp = maxHp;
     }
 
     public void receiveAttack(int damage) {
-        hp -= damage;
-        System.out.println(name + "received " + damage + " damage. " + name + " HP is now: " + hp);
-        if (hp <= 0) {
+        maxHp -= damage;
+        maxHp = Math.max(0, maxHp);
+        System.out.println(name + "received " + damage + " damage. " + name + " HP is now: " + maxHp);
+        if (maxHp <= 0) {
             System.out.println(name + " defeated!");
         }
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 
     public String getName() {
@@ -22,7 +28,7 @@ public class Enemy {
     }
 
     public int getHp() {
-        return hp;
+        return maxHp;
     }
 
     @Override
