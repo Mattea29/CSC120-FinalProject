@@ -43,3 +43,6 @@ public class Command {
         System.out.println("Hello. Stuff will be put here to help you!");
     }
 }
+
+// previous attempts made it so that the command options were only useable once and then disappeared afterwards 
+// need to make it so that the 'HELP' is always an option to users, and if the user puts in certain keys at any point, they can toggle inventory or quit game

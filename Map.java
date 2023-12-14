@@ -103,7 +103,7 @@ public class Map {
                 return;
             }
 
-            // Check for enemy encounters in the current location
+            
             String currentLocation = paths[currentPathIndex][playerIndex];
             EnemyInfo enemyInfo = locationEnemyMapping.get(currentLocation);
             if (enemyInfo != null) {
@@ -112,12 +112,12 @@ public class Map {
                 locationEnemyMapping.remove(currentLocation);  // Remove the encountered enemy from the map
             }
 
-            // Check if the player has reached the destination after the encounter
+            
             if (playerIndex >= destinationIndex) {
-                break;  // Exit the loop to prevent further unnecessary iterations
+                break;  
             }
 
-            // Continue exploring and check for power-ups
+            
             checkPowerUp();
         }
 

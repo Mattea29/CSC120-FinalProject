@@ -46,15 +46,15 @@ public class Game {
                     System.out.println((j + 1) + ". " + availablePowerUps.get(j));
                 }
     
-                // Ask the user to select an item
+                // Ask the user to select an item 
                 System.out.println("\nEnter the number of the item you want to select (1-" + availablePowerUps.size() + "): ");
                 int selectedItemIndex = scanner.nextInt();
-                scanner.nextLine();  // Consume the newline character
+                scanner.nextLine(); 
     
                 // Validate the input
                 if (selectedItemIndex < 1 || selectedItemIndex > availablePowerUps.size()) {
                     System.out.println("\nInvalid selection. Please choose a number between 1 and " + availablePowerUps.size() + ".");
-                    i--;  // Decrement the loop counter to allow the user to reselect
+                    i--;  
                     continue;
                 }
     
@@ -67,7 +67,7 @@ public class Game {
                 // Ask if the user wants to add it to their inventory
                 System.out.println("\nDo you want to add " + selectedPowerUp + " to your inventory? (1. Yes / 2. No)\n");
                 int response = scanner.nextInt();
-                scanner.nextLine();  // Consume the newline character
+                scanner.nextLine(); 
     
                 if (response == 1) {
                     selectedPowerUps.add(selectedPowerUp);
@@ -82,7 +82,7 @@ public class Game {
             // Ask if the user is ready to go
             System.out.println("\nAre you ready to go? (1. Yes / 2. No)\n");
             int readyResponse = scanner.nextInt();
-            scanner.nextLine();  // Consume the newline character
+            scanner.nextLine();  
     
             if (readyResponse == 1) {
                 readyToGo = true;

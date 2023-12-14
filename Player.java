@@ -65,6 +65,7 @@ public class Player {
         powerUpEnergyPoints.put("Photo of Your Dog", 50);
     }
 
+    //need to change so the powerUps are mapped to integers in inventory and user can put number instead of having to type out full name of power up
     public void usePowerUp(String powerUp) {
         if (powerUpEnergyPoints.containsKey(powerUp)) {
             int energyPointsToAdd = powerUpEnergyPoints.get(powerUp);
@@ -113,4 +114,4 @@ public class Player {
 
 // still need to implement logic for determining type of attack based on energy points 
 // need to implement logic for revival/healing 
-// need to implement inventory LOL
+
