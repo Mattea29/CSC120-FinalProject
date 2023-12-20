@@ -26,6 +26,7 @@ public class Game {
     public static boolean enter() {
         System.out.println("\nDo You Want to Play? (1. Yes / 2. No)\n");
         int response = scanner.nextInt();
+        scanner.nextLine();
         return response == 1;
     }
 
@@ -119,6 +120,22 @@ public class Game {
         } while (pathChoice < 1 || pathChoice > 3);
         return pathChoice;
     }
+
+    private static Map setUpGame(Player player, Inventory playerInventory) {
+        selectPowerUps(playerInventory);
+        int pathChoice = selectPath(scanner);
+        scanner.nextLine();
+        return new Map(pathChoice - 1, 5, player);
+    }
+
+    private static void displayGameState(Player player, Inventory playerInventory, Map map) {
+        System.out.println("Game Info: ");
+        System.out.println("HP: " + player.getHp());
+        System.out.println("Energy: " + player.getEnergyPoints());
+        System.out.println("Current location" + map.getCurrentLocation());
+        System.out.println("Inventory: ");
+        playerInventory.displayInventory();
+    }
     
 
     public static void main(String[] args) {
@@ -132,15 +149,78 @@ public class Game {
         String playerName = scanner.nextLine();
         Player player = new Player(playerName, 100);
         Inventory playerInventory = new Inventory();
+        Map map = setUpGame(player, playerInventory);
+
         System.out.println("Loading Game...");
         System.out.println("Ready!");
-        System.out.println("It's another beautiful morning at Smith College. From your dorm room in Comstock House, you can hear birds chirping as well as the beautiful noise of your next door neighbor blowdrying their hair.");
-        System.out.println(" 'Ugh', you think, 'who the heck is up this early blowdrying their hair?' It can't be later than 8:00 AM, the time you typically wake up to get to your favorite class: Object Oriented Programming with Jordan and Johanna");
-        System.out.println("Actually, now that you think about it, it's eerily quiet for what is usually a busy time of people rushing to get ready for their morning classes. You decide to check your phone.");
-        System.out.println("Holy Shit! It's 9:05. Your class starts at 9:25 and you take a while to get ready! You have to hurry!");
-        selectPowerUps(playerInventory);
-        int pathChoice = selectPath(scanner);
-        Map map = new Map(pathChoice - 1, 5, player);
-        map.move(pathChoice);
+        displayGameState(player, playerInventory, map);
+        boolean gameOver = false;
+        boolean movePhase = true;
+
+        while (!gameOver) {
+            if (movePhase) {
+                // Display map and prompt for movement input
+                displayGameState(player, playerInventory, map);
+                System.out.println("Type 'm' to move or 'q' to quit.");
+                String userInput = scanner.nextLine().trim();
+    
+                if (!userInput.isEmpty()) {
+                    char userCommand = Character.toLowerCase(userInput.charAt(0));
+    
+                    switch (userCommand) {
+                        case 'm':
+                            map.move();
+                            movePhase = false; // Switch to command phase after movement
+                            break;
+                        case 'q':
+                            System.out.println("Quitting the game. Goodbye!");
+                            gameOver = true;
+                            break;
+                        default:
+                            System.out.println("Invalid input. Continuing with the game.");
+                            break;
+                    }
+                }
+            } else {
+                // Command phase
+                System.out.println("Type 'i' to open/close inventory, 'h' for help, 'u' to use item, or 'm' to move.");
+                String userInput = scanner.nextLine().trim();
+    
+                if (!userInput.isEmpty()) {
+                    char userCommand = Character.toLowerCase(userInput.charAt(0));
+    
+                    switch (userCommand) {
+                        case 'i':
+                            Command.toggleInventory(playerInventory);
+                            break;
+                        case 'h':
+                            Command.displayHelpMenu();
+                            break;
+                        case 'u':
+                            Command.usePowerUp(player);
+                            break;
+                        case 'm':
+                            movePhase = true; // Switch back to movement phase
+                            break;
+                        default:
+                            System.out.println("Invalid input. Continuing with the game.");
+                            break;
+                    }
+                }
+            }
+        }
+
+        System.out.println("Goodbye!");
+        scanner.close();
+        // System.out.println("Loading Game...");
+        // System.out.println("Ready!");
+        // System.out.println("It's another beautiful morning at Smith College. From your dorm room in Comstock House, you can hear birds chirping as well as the beautiful noise of your next door neighbor blowdrying their hair.");
+        // System.out.println(" 'Ugh', you think, 'who the heck is up this early blowdrying their hair?' It can't be later than 8:00 AM, the time you typically wake up to get to your favorite class: Object Oriented Programming with Jordan and Johanna");
+        // System.out.println("Actually, now that you think about it, it's eerily quiet for what is usually a busy time of people rushing to get ready for their morning classes. You decide to check your phone.");
+        // System.out.println("Holy Shit! It's 9:05. Your class starts at 9:25 and you take a while to get ready! You have to hurry!");
+        // selectPowerUps(playerInventory);
+        // int pathChoice = selectPath(scanner);
+        // Map map = new Map(pathChoice - 1, 5, player);
+        // map.move(pathChoice);
 }
 }

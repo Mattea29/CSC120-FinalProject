@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Player {
 
@@ -66,14 +67,39 @@ public class Player {
     }
 
     //need to change so the powerUps are mapped to integers in inventory and user can put number instead of having to type out full name of power up
-    public void usePowerUp(String powerUp) {
-        if (powerUpEnergyPoints.containsKey(powerUp)) {
-            int energyPointsToAdd = powerUpEnergyPoints.get(powerUp);
-            energyPoints += energyPointsToAdd;
-            System.out.println("Used" + powerUp + ". You gained " + energyPointsToAdd + " energy points.");
-        } else {
-            System.out.println("Invalid power-up selected.");
+    public void usePowerUp(String selectedPowerUp) {
+       if (powerUps.contains(selectedPowerUp)) {
+        useSpecificPowerUp(selectedPowerUp);
+       } else {
+        System.out.println("Invalid power-up selected.");
+       }
+    }
+
+    private void useSpecificPowerUp(String selectedPowerUp) {
+        int energyPointsToAdd = 0;
+        int hpToAdd = 0;
+
+        switch (selectedPowerUp) {
+            case "Sword":
+            case "Photo of Your Dog":
+            case "Lip Balm":
+            case "Poetry Book":
+                energyPointsToAdd = 10;
+                break;
+            case "Water Bottle":
+            case "Protein Bar":
+                hpToAdd = 15;
+                break;
+            default:
+                System.out.println("Invalid power-up selected.");
+                return;
         }
+
+        energyPoints += energyPointsToAdd;
+        hp += hpToAdd;
+        System.out.println("Used " + selectedPowerUp + ". " + 
+        "Energy points increased by " + energyPointsToAdd + ". " + 
+        "HP restored by " + hpToAdd + ".\n");
     }
 
     public void revive() {
@@ -100,7 +126,7 @@ public class Player {
         System.out.println("You picked up " + powerUp.getName() + ". Added to your inventory.");
     }
 
-    public void usePowerUps(String powerUpName) {
+    public void healHp(String powerUpName) {
         if (powerUpsInventory.containsKey(powerUpName)) {
             PowerUps powerUp = powerUpsInventory.get(powerUpName);
             hp += powerUp.getHpEffect();

@@ -1,34 +1,37 @@
 import java.util.Scanner;
+import java.util.List;
 
 public class Command {
 
     private static boolean inventoryVisible = false;
+    private static Scanner scanner = new Scanner(System.in);
 
-    public static char getUserCommand(Scanner scanner) {
-        System.out.println("Press 'x' to open/close inventory, 'h'for help, or 'q' to quit.");
-        String input = scanner.nextLine();
-        return input.isEmpty() ? ' ' : Character.toUpperCase(input.charAt(0));
+    public static String getUserCommand(Scanner scanner) {
+        System.out.println("Type 'i' to open/close inventory, 'h'for help, 'u' to use item, or 'q' to quit.");
+        return scanner.nextLine().toLowerCase();
     }
 
-    public static boolean executeCommand(char command, Inventory inventory, Map map) {
+    public static boolean executeCommand(char command, String userCommand, Inventory inventory, Map map, Player player) {
         switch (command) {
-            case 'X':
+            case 'i':
                 toggleInventory(inventory);
                 return true;
-            case 'H':
+            case 'h':
                 displayHelpMenu();
                 return true;
-            case 'Q':
+            case 'q':
                 System.out.println("Quitting the game. Goodbye!");
-                System.exit(0); 
                 return false;
+            case 'u':
+                usePowerUp(player);
+                return true;
             default:
                 System.out.println("Invalid input. Continuing with the game.");
                 return true;
         }   
     }
 
-    private static void toggleInventory(Inventory inventory) {
+    public static void toggleInventory(Inventory inventory) {
         inventoryVisible = !inventoryVisible;
         if (inventoryVisible) {
             inventory.displayInventory();
@@ -38,9 +41,27 @@ public class Command {
 
     }
 
-    private static void displayHelpMenu() {
+    public static void displayHelpMenu() {
         System.out.println("Help Menu:");
         System.out.println("Hello. Stuff will be put here to help you!");
+    }
+
+    public static void displayInventory(Player player) {
+        List<String> playerInventory = player.getInventory();
+        System.out.println("Inventory: ");
+        for (String item : playerInventory) {
+            System.out.println(item);
+        }
+    }
+
+    public static void usePowerUp(Player player) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choose a power-up to use:");
+        for (String powerUp : player.getPowerUps()) {
+            System.out.println(powerUp);
+        }
+        String selectedPowerUp = scanner.nextLine();
+        player.usePowerUp(selectedPowerUp);
     }
 }
 

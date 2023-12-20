@@ -69,68 +69,65 @@ public class Map {
    }
 
 
-   public void move(int pathChoice) {
+   public void move(Map map) {
     Scanner scanner = new Scanner(System.in);
+    while (playerIndex < destinationIndex) {
+        map.displayCurrentLocation();
 
-    try {
-        switch (pathChoice) {
-            case 1:
-                currentPathIndex = 0;
-                break;
-            case 2:
-                currentPathIndex = 1;
-                break;
-            case 3:
-                currentPathIndex = 2;
-                break;
-            default:
-                System.out.println("Invalid path choice");
-                return;
+        System.out.println("Options: [1] Move forward, [2] Move backward, [3] Quit");
+
+        String userInput = scanner.nextLine().trim();
+
+        if (userInput.equals("3")) {
+            System.out.println("Quitting the game. Goodbye!");
+            System.exit(0);
         }
 
-        while (playerIndex < destinationIndex) {
-            System.out.println("Current Location: " + paths[currentPathIndex][playerIndex]);
-            System.out.println("Options: [1] Move forward, [2] Move backward");
+        handleMovement(userInput, map);
 
-            int choice = scanner.nextInt();
+        String currentLocation = map.getPaths()[map.getCurrentPathIndex()][playerIndex];
+        EnemyInfo enemyInfo = map.getLocationEnemyMapping().get(currentLocation);
 
-            if (choice == 1) {
-                playerIndex = (playerIndex + 1) % paths[currentPathIndex].length;
-            } else if (choice == 2) {
-                playerIndex = (playerIndex - 1 + paths[currentPathIndex].length) % paths[currentPathIndex].length;
-            } else {
-                System.out.println("Invalid choice. Try again.");
-                return;
-            }
-
-            
-            String currentLocation = paths[currentPathIndex][playerIndex];
-            EnemyInfo enemyInfo = locationEnemyMapping.get(currentLocation);
-            if (enemyInfo != null) {
-                enemyInfo.getEnemyName();
-                encounterEnemy(enemyInfo);
-                locationEnemyMapping.remove(currentLocation);  // Remove the encountered enemy from the map
-            }
-
-            
-            if (playerIndex >= destinationIndex) {
-                break;  
-            }
-
-            
-            checkPowerUp();
+        if (enemyInfo != null) {
+            encounterEnemy(enemyInfo);
+            map.getLocationEnemyMapping().remove(currentLocation);  // Remove the encountered enemy from the map
         }
 
-        if (paths[currentPathIndex][playerIndex].equals("Ford Hall")) {
-            encounterBoss();
-        } 
-    } finally {
-        scanner.close();
-        System.exit(0);
+        if (playerIndex >= destinationIndex) {
+            break;
+        }
+
+        checkPowerUp();
     }
+
+    if (map.getPaths()[map.getCurrentPathIndex()][playerIndex].equals("Ford Hall")) {
+        encounterBoss();
+    }
+} catch (Exception e) {
+    System.out.println("An error occurred: " + e.getMessage());
+} finally {
+    System.exit(0);
+}
 }
 
+private void handleMovement(String userInput, Map map) {
+try {
+    int choice = Integer.parseInt(userInput);
 
+    if (choice == 1) {
+        playerIndex = (playerIndex + 1) % map.getPaths()[map.getCurrentPathIndex()].length;
+    } else if (choice == 2) {
+        playerIndex = (playerIndex - 1 + map.getPaths()[map.getCurrentPathIndex()].length) % map.getPaths()[map.getCurrentPathIndex()].length;
+    } else {
+        System.out.println("Invalid choice. Try again.");
+    }
+} catch (NumberFormatException e) {
+    // If the input is not a number, assume it's a command (e.g., "forward" or "backward")
+    move(userInput, map);
+}
+}
+
+   
 private void encounterBoss() {
     System.out.println("You have encountered the boss! You are so close to class!");
     EnemyInfo bossInfo = locationEnemyMapping.get("Ford Hall");
@@ -296,7 +293,6 @@ private void checkPowerUp() {
             } else {
                 System.out.println("You left " + powerUp + " behind.");
             }
-             scanner.close();
         }
     }
 }
